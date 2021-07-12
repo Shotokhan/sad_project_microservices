@@ -1,0 +1,11 @@
+services:
+  gateway:
+    build: 
+      context: .
+      dockerfile: ./Dockerfile
+      network: host
+    image: gateway
+    volumes:
+      - ./volume/:/usr/src/app/volume/
+    ports:
+      - "5003:5000"

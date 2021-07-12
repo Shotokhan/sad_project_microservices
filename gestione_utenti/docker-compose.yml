@@ -1,0 +1,11 @@
+services:
+  gestione_utenti:
+    build: 
+      context: .
+      dockerfile: ./Dockerfile
+      network: host
+    image: gestione_utenti
+    volumes:
+      - ./volume/:/usr/src/app/volume/
+    ports:
+      - "5001:5000"
