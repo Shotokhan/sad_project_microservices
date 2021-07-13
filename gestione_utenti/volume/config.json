@@ -1,4 +1,5 @@
 {
 	"port": 5000,
-	"debug": true
+	"debug": true,
+	"db": "sqlite:////usr/src/app/volume/users.db"
 } 
