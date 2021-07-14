@@ -29,10 +29,31 @@ def check_pw_hash(password, stored_hash):
 
 def error_msg(message):
     d = {"error": message}
-    return json.dumps(d)
+    return json.dumps(d, default=str)
 
 
 def success_msg(message, data):
     # data is not "date"
     d = {"success": message, "data": data}
     return json.dumps(d, default=str)
+
+
+def info_msg(message):
+    d = {"info": message}
+    return json.dumps(d, default=str)
+
+
+def cookie_data(data_dict, is_operatore):
+    """
+
+    :param data_dict: Dict
+    :param is_operatore: Boolean
+    """
+    data_dict['is_operatore'] = is_operatore
+    serialized = json.dumps(data_dict, default=str)
+    return serialized
+
+
+def data_from_cookie(data_str):
+    unserialized = json.loads(data_str)
+    return unserialized

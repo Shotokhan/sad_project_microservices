@@ -16,15 +16,26 @@ from paziente import Paziente
 from operatore import Operatore
 from stubs_sistemi_esterni import verifyPaziente, verifyLuogo
 import datetime
-from flask import request
-from appExceptions import AlreadyExistException
+from flask import request, session
+from appExceptions import AlreadyExistException, RowNotFoundException
 
 app = manager.app
 
 
+def already_logged_in(user):
+    if user['is_operatore']:
+        return projectUtils.info_msg("You are already logged with idAslOperatore {}".format(user['idAslOperatore']))
+    else:
+        return projectUtils.info_msg("You are already logged with codiceFiscale {}".format(user['codiceFiscale']))
+
+
 @app.route('/', methods=['GET'])
 def index():
-    return "Service is up"
+    if 'user' not in session:
+        return projectUtils.info_msg("Service is up")
+    else:
+        user = projectUtils.data_from_cookie(session['user'])
+        return already_logged_in(user)
 
 
 @app.route('/api/register', methods=['POST'])
@@ -40,6 +51,9 @@ def register():
 
      r = requests.post(url, json=data)
     """
+    if 'user' in session:
+        user = projectUtils.data_from_cookie(session['user'])
+        return already_logged_in(user)
     params = request.get_json()
     try:
         try:
@@ -57,14 +71,59 @@ def register():
                                           "luogo nascita/residenza: {}".format(verificaAnagrafica, verificaLuogo))
         user.addPaziente(manager.db)
         success_msg = projectUtils.success_msg("Success: account created", user.__dict__)
-        # TODO: set cookie (a function for it)
+        session.permanent = True
+        session['user'] = projectUtils.cookie_data(user.__dict__, is_operatore=False)
         return success_msg
     except AlreadyExistException:
         return projectUtils.error_msg("Paziente with that codiceFiscale and/or tesseraSanitaria already exists")
     except KeyError:
         return projectUtils.error_msg("Some required values missing")
 
-# TODO: login
+
+@app.route('/api/login', methods=['POST'])
+def login():
+    """
+    Input is like:
+     data = {'codiceFiscale': 'cf', 'password': 'pass', 'is_operatore': False}
+    OR
+     data = {'idAslOperatore': 'asl0', 'password': 'pass', 'is_operatore': True}
+    Test from python shell:
+     base_url = "http://{}:{}".format(ip, port)
+
+     s = requests.Session()
+
+     r1 = s.post(base_url + "/api/login", json=data)
+
+     r2 = s.get(base_url + "/")
+    """
+    if 'user' in session:
+        user = projectUtils.data_from_cookie(session['user'])
+        return already_logged_in(user)
+    params = request.get_json()
+    try:
+        if params['is_operatore']:
+            user = Operatore(idAslOperatore=params['idAslOperatore'], password=params['password'])
+            user.authOperatore(manager.db)
+        else:
+            user = Paziente(codiceFiscale=params['codiceFiscale'], password=params['password'])
+            user.authPaziente(manager.db)
+        success_msg = projectUtils.success_msg("Login successful", user.__dict__)
+        session.permanent = True
+        session['user'] = projectUtils.cookie_data(user.__dict__, is_operatore=params['is_operatore'])
+        return success_msg
+    except RowNotFoundException:
+        return projectUtils.error_msg("Login failed")
+    except KeyError:
+        return projectUtils.error_msg("Some required values missing")
+
+
+@app.route('/api/logout', methods=['GET'])
+def logout():
+    if 'user' in session:
+        session.pop('user')
+        return projectUtils.info_msg("Logged out")
+    else:
+        return projectUtils.error_msg("You are not logged in")
 
 
 if __name__ == '__main__':

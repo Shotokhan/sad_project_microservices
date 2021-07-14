@@ -21,6 +21,8 @@ class Operatore(Utente):
             db.session.commit()
         except IntegrityError:
             db.session.rollback()
+            utente = Utente(utente.id)
+            utente.getUtenteByID(db, delete=True)
             raise AlreadyExistException("Tried to add a 'operatore' with idAslOperatore"
                                         "equal to another existing 'operatore'")
         db.session.refresh(operatore)

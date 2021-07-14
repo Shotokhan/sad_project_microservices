@@ -1,5 +1,7 @@
 {
 	"port": 5000,
 	"debug": true,
-	"db": "sqlite:////usr/src/app/volume/users.db"
+	"db": "sqlite:////usr/src/app/volume/users.db",
+	"secret": "dont_use_this_in_production",
+	"session_validity_days": 7
 } 

@@ -5,7 +5,7 @@ sys.path.insert(0, "..")
 from app_singleton import App
 
 # in-memory database
-manager = App(__name__, config={'db': "sqlite://"})
+manager = App(__name__, config={'db': "sqlite://", 'secret': '', 'session_validity_days': 1})
 
 # need this import for db.create_all()
 from utenteDAO import UtenteDAO

@@ -25,6 +25,8 @@ class Paziente(Utente):
             db.session.commit()
         except IntegrityError:
             db.session.rollback()
+            utente = Utente(utente.id)
+            utente.getUtenteByID(db, delete=True)
             raise AlreadyExistException("Tried to add a 'paziente' with codiceFiscale and/or tesseraSanitaria"
                                         "equal to another existing 'paziente'")
         db.session.refresh(paziente)

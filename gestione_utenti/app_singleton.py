@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import json
 from singleton import Singleton
+from datetime import timedelta
 
 
 class App(metaclass=Singleton):
@@ -19,5 +20,7 @@ class App(metaclass=Singleton):
         # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////usr/src/app/users.db'
         self.app.config['SQLALCHEMY_DATABASE_URI'] = self.config['db']
         self.app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+        self.app.config['SECRET_KEY'] = self.config['secret']
+        self.app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=self.config['session_validity_days'])
         self.db = SQLAlchemy(self.app)
 
