@@ -1,0 +1,50 @@
+*{
+	color: white;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+table {
+	color: #3498db;
+	width: 280px;
+	height: auto;
+	padding: 10px;
+	border: 1px solid #002c53;
+	background: #3498db;
+	position: absolute;
+	left: 42%;
+}
+
+h1 {
+	color: #3498db;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+
+.form_box input[type = "text"], .form_box input[type = "password"], .form_box input[type = "date"], .form_box input[type = "tel"], .form_box input[type = "email"] {
+	color: #3498db;
+	text-align: center;
+	align-self: center;
+	width: 270px;
+
+}
+
+input {
+	color: #3498db;
+}
+
+
+.form_box input[type = "submit"], .form_box input[type = "reset"] {
+	margin: 20px auto;
+	text-align: center;
+	padding: 15px 15px;
+	color: #3498db;
+	
+}
+
+
+a.registerlink {
+	color: white;
+	text-decoration: none;
+}   

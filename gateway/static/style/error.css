@@ -1,0 +1,18 @@
+h1 {
+    color: #3498db;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 60px;
+}
+h3 {
+    color: #3498db;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 20px;
+}
+
+a {
+    text-decoration: none;
+}   
+
+

@@ -72,8 +72,8 @@ def booking():
     etaPaziente = datetime.date.today().year - user['dataNascita'].year
     checkWindow, startWindow = verificaFinestraTemporale(etaPaziente)
     if not checkWindow:
-        return projectUtils.info_msg("Sorry, it's too early for you to make a Prenotazione. Come back later "
-                                     "starting from: {}".format(str(startWindow)))
+        return projectUtils.error_msg("Sorry, it's too early for you to make a Prenotazione. Come back later "
+                                      "starting from: {}".format(str(startWindow)))
     deltaDays = manager.config['deltaDays']
     maxBookingsPerDay = manager.config['maxBookingsPerDay']
     try:

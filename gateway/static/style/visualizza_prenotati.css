@@ -1,0 +1,38 @@
+input[type = "button" i] {
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #2ecc71;
+    padding: 14px 20px;
+    outline: none;
+    color: #3498db;
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    left: 95%;
+}
+    input[type = "button" i]:hover {
+        background: #3498db;
+        color: white;
+    }
+
+h1 {
+    color: #3498db;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 60px;
+}
+
+h2 {
+    color: black;
+    text-align: center;
+    padding: 60px;
+}
+
+a {
+    text-decoration: none;
+}
+

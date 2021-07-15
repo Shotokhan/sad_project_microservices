@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Registrazione Vaccini-Covid19</title>
+  <link rel="icon" href="/static/image/favicon.ico"/>
+  <link rel="stylesheet" href="/static/style/registrazione.css"/>
+
+</head>
+
+<body>
+    <div id="container">
+        <a href="/"><h1>Sistema Prenotazione Vaccini</h1></a>
+
+        <table>
+            <form class="form_box" method="post" id="formregistrazione" name="formregistrazione">
+                <tr>
+                    <td colspan="2" align="left"><h2>Crea il tuo account</h2></td>
+                </tr>
+                <tr><td><b>Nome</b></td><td><input type="text" name="nome" required></td></tr>
+                <tr><td><b>Cognome</b></td><td><input type="text" name="cognome" required></td></tr>
+                <tr><td><b>Codice Fiscale</b></td><td><input type="text" name="codiceFiscale" required></td></tr>
+                <tr><td><b>Tessera Sanitaria</b></td><td><input type="text" name="tesseraSanitaria" required></td></tr>
+                <tr><td><b>Data di nascita</b></td><td><input type="date" name="dataNascita" required></td></tr>
+                <tr><td><b>Luogo di nascita</b></td><td><input type="text" name="luogoNascita" required></td></tr>
+                <tr><td><b>Luogo di residenza</b></td><td><input type="text" name="luogoResidenza" required></td></tr>
+                <tr><td><b>Email</b></td><td><input type="email" name="email" required></td></tr>
+                <tr><td><b>Telefono</b></td><td><input type="tel" name="telefono" required></td></tr>
+                <tr><td><b>Password</b></td><td><input type="password" name="password" required></td></tr>
+                <tr><td><b>Conferma password</b></td><td><input type="password" name="password_confirm" required></td></tr>
+                <tr><td colspan="2" align="right"><input type="button" name="submit_button" value="Registrati" onclick="formSubmit_registrazione();"></td></tr>
+                <tr><td colspan="2" align="right"><input type="reset" name="reset_button" value="Cancella"></td></tr>
+            </form>
+                <tr><td colspan="2"><b>Disponi di un account <a href="/" class="loginlink">Accedi</a></b></td></tr>
+        </table>
+        <script src="/static/script/registrazione.js"></script>
+    </div>
+</body>
+
+</html>
+

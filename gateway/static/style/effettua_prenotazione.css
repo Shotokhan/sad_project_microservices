@@ -1,0 +1,51 @@
+
+h1 {
+    color: #3498db;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+
+h2 {
+    color: black;
+    text-align: center;
+}
+
+
+.prenota{
+    border: 2px solid #2ecc71;
+    color: #3498db;
+    position: absolute;
+    top: 25%;
+    left: 55%;
+}
+
+.prenota:hover{
+    background: #3498db;
+    color: white;
+}
+
+.annulla{
+    border: 2px solid red;
+    color: #3498db;
+    position: absolute;
+    top: 25%;
+    left: 40%;
+}
+
+.annulla:hover {
+        background: red;
+        color: black;
+}
+
+input[type = "button" ] {
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer;
+    padding: 14px 20px;
+    outline: none;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+}

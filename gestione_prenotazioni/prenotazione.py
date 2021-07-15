@@ -2,7 +2,6 @@ from prenotazioneDAO import PrenotazioneDAO
 from appExceptions import RowNotFoundException, AlreadyExistException
 import datetime
 from sqlalchemy.exc import IntegrityError
-import itertools
 
 
 class Prenotazione:

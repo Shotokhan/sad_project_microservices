@@ -1,7 +1,9 @@
 from app_singleton import App
 import requests
 import projectUtils
-from flask import Response, request
+from flask import Response, request, render_template, send_from_directory, redirect
+import os
+
 
 manager = App(__name__, "./volume/config.json")
 
@@ -40,13 +42,32 @@ def gateway(url, path, incomingRequest):
             return projectUtils.info_msg("Supported methods: GET, POST")
         r_headers = [(name, value) for (name, value) in r.raw.headers.items()]
         res = Response(r.text, r.status_code, r_headers)
-        return res
+        return res, r
     except requests.exceptions.RequestException as e:
         return projectUtils.exceptionHandler("Exception while making a request to a microservice", e)
 
 
+def pageForUser(urlForPaziente, urlForOperatore, urlForNotAuth):
+    _, r = gateway(manager.gestioneUtentiURL, '/api/users', request)
+    user = r.json()
+    if 'info' in user:
+        if 'codiceFiscale' in user['info']:
+            return render_template(urlForPaziente)
+        elif 'idAslOperatore' in user['info']:
+            return render_template(urlForOperatore)
+        else:
+            return render_template(urlForNotAuth)
+    else:
+        return redirect('/errorPage', 302)
+
+
 @app.route('/', methods=['GET'])
 def index():
+    return pageForUser('home.html', 'visualizza_prenotati.html', 'login.html')
+
+
+@app.route('/api/gateway/status', methods=['GET'], strict_slashes=False)
+def status():
     return projectUtils.info_msg("Service is up")
 
 
@@ -55,7 +76,8 @@ def index():
 def usersAPI(path=""):
     path = "/api/users/" + path
     url = manager.gestioneUtentiURL
-    return gateway(url, path, request)
+    res, _ = gateway(url, path, request)
+    return res
 
 
 @app.route('/api/bookings', strict_slashes=False)
@@ -63,7 +85,33 @@ def usersAPI(path=""):
 def bookingsAPI(path=""):
     path = "/api/bookings/" + path
     url = manager.gestionePrenotazioniURL
-    return gateway(url, path, request)
+    res, _ = gateway(url, path, request)
+    return res
+
+
+@app.route('/favicon.ico', methods=['GET'])
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static', 'images'), 'favicon.png', mimetype='image/png')
+
+
+@app.route('/errorPage', methods=['GET'])
+def errorPage():
+    return render_template('error.html')
+
+
+@app.route('/effettuaPrenotazione', methods=['GET'])
+def newBooking():
+    return pageForUser('effettua_prenotazione.html', 'visualizza_prenotati.html', 'login.html')
+
+
+@app.route('/visualizzaPrenotazione', methods=['GET'])
+def viewBooking():
+    return pageForUser('visualizza_prenotazione.html', 'visualizza_prenotati.html', 'login.html')
+
+
+@app.route('/registrazione', methods=['GET'])
+def signUp():
+    return pageForUser('home.html', 'visualizza_prenotati.html', 'registrazione.html')
 
 
 if __name__ == '__main__':

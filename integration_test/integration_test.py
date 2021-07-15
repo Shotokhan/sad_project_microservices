@@ -7,6 +7,7 @@ with open('./config.json', 'r') as f:
 assert len(config) > 0, "Configuration file cannot be empty"
 
 url = "http://{}:{}".format(config['ip'], config['port'])
+gatewayStatus = url + "/api/gateway/status"
 usersAPI = url + "/api/users/"
 bookingsAPI = url + "/api/bookings/"
 register = usersAPI + "/register"
@@ -21,7 +22,7 @@ _timeout = 2
 
 
 def test_gateway_up():
-    r = requests.get(url, timeout=_timeout)
+    r = requests.get(gatewayStatus, timeout=_timeout)
     j = json.loads(r.text)
     assert j['info'] == 'Service is up', "The gateway should be up"
 
