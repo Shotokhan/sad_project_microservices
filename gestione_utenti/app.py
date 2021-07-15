@@ -29,7 +29,23 @@ def already_logged_in(user):
         return projectUtils.info_msg("You are already logged with codiceFiscale {}".format(user['codiceFiscale']))
 
 
+@app.errorhandler(Exception)
+def unexpectedExceptionHandler(error):
+    return projectUtils.exceptionHandler("Unexpected exception", error)
+
+
+@app.errorhandler(404)
+def NotFoundHandler(error):
+    return projectUtils.exceptionHandler("404 Not Found", error)
+
+
+@app.errorhandler(500)
+def ServerErrorHandler(error):
+    return projectUtils.exceptionHandler("500 Internal Server Error", error)
+
+
 @app.route('/', methods=['GET'])
+@app.route('/api/users', methods=['GET'], strict_slashes=False)
 def index():
     if 'user' not in session:
         return projectUtils.info_msg("Service is up")
@@ -38,7 +54,7 @@ def index():
         return already_logged_in(user)
 
 
-@app.route('/api/register', methods=['POST'])
+@app.route('/api/users/register', methods=['POST'], strict_slashes=False)
 def register():
     # only a Paziente can register using the API, Operatore is added occasionally by an admin
     """
@@ -47,7 +63,7 @@ def register():
      {'nome': 'a', 'cognome': 'b', 'dataNascita': '2020-1-1', 'luogoNascita': 'n', 'email': 'c', 'telefono': 'd',
      'password': 'pass', 'codiceFiscale': 'cf', 'tesseraSanitaria': 'ts', 'luogoResidenza': 'n'}
     Test from python shell:
-     url = "http://{}:{}/api/register".format(ip, port)
+     url = "http://{}:{}/api/users/register".format(ip, port)
 
      r = requests.post(url, json=data)
     """
@@ -80,7 +96,7 @@ def register():
         return projectUtils.error_msg("Some required values missing")
 
 
-@app.route('/api/login', methods=['POST'])
+@app.route('/api/users/login', methods=['POST'], strict_slashes=False)
 def login():
     """
     Input is like:
@@ -92,7 +108,7 @@ def login():
 
      s = requests.Session()
 
-     r1 = s.post(base_url + "/api/login", json=data)
+     r1 = s.post(base_url + "/api/users/login", json=data)
 
      r2 = s.get(base_url + "/")
     """
@@ -117,7 +133,7 @@ def login():
         return projectUtils.error_msg("Some required values missing")
 
 
-@app.route('/api/logout', methods=['GET'])
+@app.route('/api/users/logout', methods=['GET'], strict_slashes=False)
 def logout():
     if 'user' in session:
         session.pop('user')

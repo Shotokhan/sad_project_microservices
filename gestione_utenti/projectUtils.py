@@ -62,3 +62,12 @@ def cookie_data(data_dict, is_operatore):
 def data_from_cookie(data_str):
     unserialized = json.loads(data_str)
     return unserialized
+
+
+def log(logType, message):
+    print("{} log: {}".format(logType, message))
+
+
+def exceptionHandler(message, errorObj):
+    log("Exception", str(errorObj))
+    return error_msg(message)

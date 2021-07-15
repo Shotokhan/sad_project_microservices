@@ -1,4 +1,9 @@
 {
 	"port": 5000,
-	"debug": true
+	"debug": true,
+	"gestione_utenti_ip": "172.21.0.1",
+	"gestione_utenti_port": "5001",
+	"gestione_prenotazioni_ip": "172.21.0.1",
+	"gestione_prenotazioni_port": "5002",
+	"requests_timeout": 2
 } 

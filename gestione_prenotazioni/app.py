@@ -26,7 +26,23 @@ def logged_in(user):
         return projectUtils.info_msg("You are logged with codiceFiscale {}".format(user['codiceFiscale']))
 
 
+@app.errorhandler(Exception)
+def unexpectedExceptionHandler(error):
+    return projectUtils.exceptionHandler("Unexpected exception", error)
+
+
+@app.errorhandler(404)
+def NotFoundHandler(error):
+    return projectUtils.exceptionHandler("404 Not Found", error)
+
+
+@app.errorhandler(500)
+def ServerErrorHandler(error):
+    return projectUtils.exceptionHandler("500 Internal Server Error", error)
+
+
 @app.route('/', methods=['GET'])
+@app.route('/api/bookings', methods=['GET'], strict_slashes=False)
 def index():
     if 'user' not in session:
         return projectUtils.info_msg("Service is up")
@@ -35,7 +51,7 @@ def index():
         return logged_in(user)
 
 
-@app.route('/api/booking', methods=['POST'])
+@app.route('/api/bookings/newBooking', methods=['POST'], strict_slashes=False)
 def booking():
     if 'user' not in session:
         return projectUtils.error_msg("You must login to make a Prenotazione")
@@ -75,7 +91,7 @@ def booking():
         return projectUtils.error_msg("Some required values missing")
 
 
-@app.route('/api/view', methods=['GET'])
+@app.route('/api/bookings/view', methods=['GET'], strict_slashes=False)
 def view():
     if 'user' not in session:
         return projectUtils.error_msg("You must login to access this API")

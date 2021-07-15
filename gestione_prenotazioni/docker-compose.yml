@@ -9,3 +9,5 @@ services:
       - ./volume/:/usr/src/app/volume/
     ports:
       - "5002:5000"
+    environment:
+      - PYTHONUNBUFFERED=1

@@ -1,6 +1,6 @@
-import example_test
+import test_gateway
 
 
 if __name__ == "__main__":
-    for test in example_test.tests:
+    for test in test_gateway.tests:
         test()
