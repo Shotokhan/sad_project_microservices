@@ -1,25 +1,31 @@
-<!doctype html>
-<html lang="it">
-
-<head>
-    <meta charset="UTF-8" />
-    <title>Prenotati del Giorno</title>
-    <link rel="icon" href="/static/image/favicon.ico" />
+{% extends "base.html" %}
+{% block title %}
+    <title>Lista Prenotati</title>
+{% endblock %}
+{% block style %}
     <link rel="stylesheet" href="/static/style/visualizza_prenotati.css" />
+{% endblock %}
+{% block body %}
+    <body onload="visualizza_prenotati()">
+        <div>
+            <a href="/" class="titolo"><h1>Sistema Prenotazione Vaccini anti Covid-19</h1></a>
+        </div>
+        </div>
 
-</head>
-
-<body onload="visualizza_prenotati()">
-        <a href="/" class="titolo"><h1>Sistema Prenotazione Vaccini anti Covid-19</h1></a>
-        <h2 id="messaggio_no_prenotazione" style="display:block;" class="messaggio_no_prenotazione">Non sono presenti utenti prenotati</h2>
-
-        <table id="tabella_prenotati" style="display:none;">
-            <thead>
-                <tr><td colspan="2"><h1>Prenotati di giornata</h1></td></tr>
-            </thead>
-        </table>
-        <input type="button" name="logout" value="logout" onclick="logout_operatore()" />
-        <script src="/static/script/visualizza_prenotati.js"></script>
- </body>
-
-</html>
+            <h2 id="messaggio_no_prenotazione" style="display:block;" class="messaggio_no_prenotazione">Non sono presenti utenti prenotati</h2>
+        </div>
+        <div>
+            <table id="tabella_prenotati" style="display:none;">
+                <thead>
+                    <tr><td colspan="5"><h2>Prenotati futuri</h2></td></tr>
+                </thead>
+            </table>
+        </div>
+        <div>
+            <input type="button" name="logout" value="logout" onclick="logout_operatore()" />
+        </div>
+    </body>
+{% endblock %}
+{% block script %}
+    <script src="/static/script/visualizza_prenotati.js"></script>
+{% endblock %}

@@ -96,7 +96,14 @@ def favicon():
 
 @app.route('/errorPage', methods=['GET'])
 def errorPage():
-    return render_template('error.html')
+    if request.args is None:
+        return render_template('error.html', error_msg="Unknown error")
+    else:
+        error_msg = request.args.get('error_msg')
+        if error_msg is None:
+            return render_template('error.html', error_msg="Unknown error")
+        else:
+            return render_template('error.html', error_msg=error_msg)
 
 
 @app.route('/effettuaPrenotazione', methods=['GET'])

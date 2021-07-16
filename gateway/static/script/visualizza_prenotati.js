@@ -30,7 +30,7 @@ function visualizza_prenotati() {
     xhr.addEventListener('load', function (event) {
         let res = JSON.parse(xhr.responseText);
         if ("error" in res) {
-            window.location.href = "/errorPage";
+            window.location.href = "/errorPage?error_msg=" + encodeURI(res["error"]);
             return false;
         }
         /*Il messaggio inizialmente � display="block" e una volta recuperate le info
@@ -52,7 +52,6 @@ function visualizza_prenotati() {
     });
 
     xhr.open('GET', '/api/bookings/view');
-    xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send();
 
 }
@@ -68,12 +67,16 @@ function logout_operatore() {
     });
 
     xhr.addEventListener('load', function (event) {
+        let res = JSON.parse(xhr.responseText);
+        if ("error" in res) {
+            window.location.href = "/errorPage?error_msg=" + encodeURI(res["error"]);
+            return false;
+        }
         window.location.href = "/";
         return true;
     });
 
     xhr.open('GET', '/api/users/logout');
-    xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send();
 
 }

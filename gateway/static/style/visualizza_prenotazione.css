@@ -4,11 +4,9 @@ table {
 	height: auto;
 	padding: 10px;
 	border: 1px solid #002c53;
-	position: absolute;
-	top: 100px;
-	left: 42%;
     background-color: #3498db;
     border-spacing: 1em;
+    margin: 0 auto 0 auto;
 }
 
 a {

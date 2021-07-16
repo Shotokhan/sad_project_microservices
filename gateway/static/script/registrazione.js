@@ -13,7 +13,7 @@ function formSubmit_registrazione() {
     xhr.addEventListener('load', function (event) {
         let res = JSON.parse(xhr.responseText);
         if ("error" in res) {
-            window.location.href = "/errorPage";
+            window.location.href = "/errorPage?error_msg=" + encodeURI(res["error"]);
             return false;
         }
         window.location.href = "/";

@@ -10,7 +10,7 @@ function Submit_prenotazione() {
     xhr.addEventListener('load', function (event) {
         let res = JSON.parse(xhr.responseText);
         if ("error" in res) {
-            window.location.href = "/errorPage";
+            window.location.href = "/errorPage?error_msg=" + encodeURI(res["error"]);
             return false;
         }
         window.location.href = "/";
@@ -18,7 +18,6 @@ function Submit_prenotazione() {
     });
 
     xhr.open('POST', '/api/bookings/newBooking');
-    xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send();
 }
 

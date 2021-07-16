@@ -11,7 +11,6 @@ function logout_error() {
     });
 
     xhr.open('GET', '/api/users/logout');
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send("logout");
+    xhr.send();
 
 }

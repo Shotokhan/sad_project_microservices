@@ -1,15 +1,11 @@
-<!doctype html>
-<html lang="it">
-
-<head>
-  <meta charset="UTF-8" />
-  <title>Registrazione Vaccini-Covid19</title>
-  <link rel="icon" href="/static/image/favicon.ico"/>
-  <link rel="stylesheet" href="/static/style/registrazione.css"/>
-
-</head>
-
-<body>
+{% extends "base.html" %}
+{% block title %}
+    <title>Registrazione Vaccini-Covid19</title>
+{% endblock %}
+{% block style %}
+    <link rel="stylesheet" href="/static/style/registrazione.css"/>
+{% endblock %}
+{% block body %}
     <div id="container">
         <a href="/"><h1>Sistema Prenotazione Vaccini</h1></a>
 
@@ -32,11 +28,10 @@
                 <tr><td colspan="2" align="right"><input type="button" name="submit_button" value="Registrati" onclick="formSubmit_registrazione();"></td></tr>
                 <tr><td colspan="2" align="right"><input type="reset" name="reset_button" value="Cancella"></td></tr>
             </form>
-                <tr><td colspan="2"><b>Disponi di un account <a href="/" class="loginlink">Accedi</a></b></td></tr>
+                <tr><td colspan="2"><b>Disponi di un account? <a href="/" class="loginlink">Accedi</a></b></td></tr>
         </table>
-        <script src="/static/script/registrazione.js"></script>
     </div>
-</body>
-
-</html>
-
+{% endblock %}
+{% block script %}
+    <script src="/static/script/registrazione.js"></script>
+{% endblock %}

@@ -23,6 +23,12 @@ body {
     background-color: #f7f6f8;
 }
 
+#container_box {
+    margin: 0 auto;
+    position: relative;
+    width: 600px;
+    height: 300px;
+}
 
 .box-1 {
     width: 300px;
@@ -30,11 +36,10 @@ body {
     padding: 10px;
     border: 1px solid #002c53;
     background: #568ec0;
-    position: absolute;
-    top: 280px;
-    left: 25%;
-    z-index: 1;
     color: #3498db;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .box-2 {
@@ -43,11 +48,10 @@ body {
     padding: 10px;
     border: 1px solid #002c53;
     background: #568ec0;
-    position: absolute;
-    top: 280px;
-    right: 25%;
-    z-index: 2;
     color: #3498db;
+    position: absolute;
+    top: 0;
+    left: 300px;
 }
 
 input[type = "button" i] {
@@ -62,14 +66,13 @@ input[type = "button" i] {
     border-radius: 24px;
     transition: 0.25s;
     cursor: pointer;
-    position: absolute;
-    top: 70%;
-    left: 48%;
+
 }
-    input[type = "button" i]:hover {
+
+input[type = "button" i]:hover {
         background: #3498db;
         color:white;
-    }
+}
 
 a {
     text-decoration: none;

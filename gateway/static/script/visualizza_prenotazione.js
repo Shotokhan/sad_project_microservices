@@ -9,7 +9,7 @@ function visualizza_prenotazione(){
     xhr.addEventListener('load', function (event) {
         let res = JSON.parse(xhr.responseText);
         if ("error" in res) {
-            window.location.href = "/errorPage";
+            window.location.href = "/errorPage?error_msg=" + encodeURI(res["error"]);
             return false;
         }
         var data = document.getElementById("Data");
@@ -35,7 +35,6 @@ function visualizza_prenotazione(){
     });
 
     xhr.open('GET', '/api/bookings/view');
-    xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send();
     
 }

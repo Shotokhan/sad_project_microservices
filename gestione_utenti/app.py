@@ -136,7 +136,8 @@ def login():
 @app.route('/api/users/logout', methods=['GET'], strict_slashes=False)
 def logout():
     if 'user' in session:
-        session.pop('user')
+        _keys = [key for key in session.keys()]
+        [session.pop(key) for key in _keys]
         return projectUtils.info_msg("Logged out")
     else:
         return projectUtils.error_msg("You are not logged in")

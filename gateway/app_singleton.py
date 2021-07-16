@@ -15,9 +15,5 @@ class App(metaclass=Singleton):
         else:
             self.config = config
 
-        self.gestioneUtentiURL = "http://{}:{}".format(
-            self.config['gestione_utenti_ip'], self.config['gestione_utenti_port']
-        )
-        self.gestionePrenotazioniURL = "http://{}:{}".format(
-            self.config['gestione_prenotazioni_ip'], self.config['gestione_prenotazioni_port']
-        )
+        self.gestioneUtentiURL = self.config['gestione_utenti_url']
+        self.gestionePrenotazioniURL = self.config['gestione_prenotazioni_url']

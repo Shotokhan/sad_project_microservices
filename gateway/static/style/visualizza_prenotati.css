@@ -10,14 +10,11 @@ input[type = "button" i] {
     border-radius: 24px;
     transition: 0.25s;
     cursor: pointer;
-    position: absolute;
-    top: 10px;
-    left: 95%;
 }
-    input[type = "button" i]:hover {
-        background: #3498db;
-        color: white;
-    }
+input[type = "button" i]:hover {
+    background: #3498db;
+    color: white;
+}
 
 h1 {
     color: #3498db;
@@ -36,3 +33,13 @@ a {
     text-decoration: none;
 }
 
+table {
+	color: white;
+	width: fit-content;
+	height: auto;
+	padding: 10px;
+	border: 1px solid #002c53;
+    background-color: #3498db;
+    border-spacing: 1em;
+    margin: 0 auto 0 auto;
+}

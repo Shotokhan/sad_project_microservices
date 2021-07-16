@@ -1,25 +1,26 @@
-<!doctype html>
-<html lang="it">
-
-<head>
-    <meta charset="UTF-8" />
+{% extends "base.html" %}
+{% block title %}
     <title>Prenota Vaccini-Covid19</title>
-    <link rel="icon" href="/static/images/favicon.ico" />
+{% endblock %}
+{% block style %}
     <link rel="stylesheet" href="/static/style/effettua_prenotazione.css" />
-
-</head>
-
-<body>
-    <div id="container">
+{% endblock %}
+{% block body %}
+<div id="container">
+    <div>
         <h1>Sistema Prenotazione Vaccini Covid-19</h1>
-            <h2>Confermi la tua prenotazione?</h2>
-        
-                <input type="button" class="prenota" name="submit_button" value="Prenota!" onclick="Submit_prenotazione()">
-                <input type="button" class="annulla" name="reset_button" value="Annulla" onclick="Back_Home()">
-
-                <script src="/static/script/effettua_prenotazione.js"></script>
-        </div>
-</body>
-
-</html>
-
+    </div>
+    <div>
+        <h2>Confermi la tua prenotazione?</h2>
+    </div>
+    <div>
+        <input type="button" class="prenota" name="submit_button" value="Prenota!" onclick="Submit_prenotazione()">
+    </div>
+    <div>
+        <input type="button" class="annulla" name="reset_button" value="Annulla" onclick="Back_Home()">
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+    <script src="/static/script/effettua_prenotazione.js"></script>
+{% endblock %}

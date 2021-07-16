@@ -1,19 +1,19 @@
-<!doctype html>
-<html lang="it">
-
-<head>
-    <meta charset="UTF-8" />
+{% extends "base.html" %}
+{% block title %}
     <title>Home Vaccini-Covid19</title>
-    <link rel="icon" href="/static/images/favicon.ico" />
+{% endblock %}
+{% block style %}
     <link rel="stylesheet" href="/static/style/home.css" />
- 
-
-</head>
-
-<body>
+{% endblock %}
+{% block body %}
     <div id="container">
+        <div>
         <a href="/"><h1>Benvenuto nella piattaforma</h1></a>
+        </div>
+        <div>
         <h3>Il portale per prenotazione e consultazione dell'appuntamento per la vaccinazione anti Covid-19</h3>
+        </div>
+        <div id="container_box">
         <div class="box-1">
             <img src="/static/images/vaccino.jpg" width="128px" height="67px">
             <p><h2>PRENOTA</h2></p>
@@ -32,9 +32,12 @@
             <br />
             <a href="/visualizzaPrenotazione" class="registerlink">Vai-></a>
         </div>
+        </div>
+        <div>
         <input type="button" name="logout" value="logout" onclick="logout_user()" />
-        <script src="/static/script/home.js"></script>
+        </div>
     </div>
-</body>
-
-</html>
+{% endblock %}
+{% block script %}
+    <script src="/static/script/home.js"></script>
+{% endblock %}

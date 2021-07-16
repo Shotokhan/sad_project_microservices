@@ -8,10 +8,8 @@ import projectUtils
 manager = App(__name__, config={
     "port": 5000,
     "debug": True,
-    "gestione_utenti_ip": "172.22.0.2",
-    "gestione_utenti_port": "5000",
-    "gestione_prenotazioni_ip": "172.23.0.2",
-    "gestione_prenotazioni_port": "5000",
+    "gestione_utenti_url": "http://172.22.0.2:5000",
+    "gestione_prenotazioni_url": "http://172.23.0.2:5000",
     "requests_timeout": 2
 })
 # need this *-import to init routes

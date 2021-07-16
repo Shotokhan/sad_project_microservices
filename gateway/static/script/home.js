@@ -10,7 +10,7 @@ function logout_user() {
     xhr.addEventListener('load', function (event) {
         let res = JSON.parse(xhr.responseText);
         if ("error" in res) {
-            window.location.href = "/errorPage";
+            window.location.href = "/errorPage?error_msg=" + encodeURI(res["error"]);
             return false;
         }
         window.location.href = "/";
@@ -18,7 +18,6 @@ function logout_user() {
     });
 
     xhr.open('GET', '/api/users/logout');
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send("logout");
+    xhr.send();
 
 }
