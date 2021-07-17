@@ -28,19 +28,19 @@ def check_pw_hash(password, stored_hash):
     return hash_pw(password) == stored_hash
 
 
-def json_response(_json):
-    return flask.Response(_json, mimetype='application/json')
+def json_response(_json, status_code=200):
+    return flask.Response(_json, mimetype='application/json', status=status_code)
 
 
 def error_msg(message):
     d = {"error": message}
-    return json_response(json.dumps(d, default=str))
+    return json_response(json.dumps(d, default=str), status_code=400)
 
 
 def success_msg(message, data):
     # data is not "date"
     d = {"success": message, "data": data}
-    return json_response(json.dumps(d, default=str))
+    return json_response(json.dumps(d, default=str), status_code=201)
 
 
 def info_msg(message):
