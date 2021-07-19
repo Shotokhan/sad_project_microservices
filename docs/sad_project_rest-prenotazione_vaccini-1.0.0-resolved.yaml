@@ -1,0 +1,343 @@
+---
+openapi: 3.0.0
+info:
+  title: RESTful API del sistema
+  description: API del sistema di prenotazione di vaccini
+  license:
+    name: GPL 3.0
+    url: https://www.gnu.org/licenses/gpl-3.0.html
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/sad_project_rest/prenotazione_vaccini/1.0.0
+  description: SwaggerHub API Auto Mocking
+tags:
+- name: operatore
+  description: Operazioni disponibili per l'operatore, inteso come attore
+- name: paziente
+  description: Operazioni disponibili per il paziente, inteso come attore
+paths:
+  /api/users:
+    get:
+      tags:
+      - operatore
+      - paziente
+      summary: Mostra lo stato del servizio
+      description: |
+        Se non sei autenticato, ti dice se il servizio è disponibile; altrimenti ti fornisce informazioni sull'utente con il quale sei autenticato
+      operationId: apiUsers
+      responses:
+        "200":
+          description: Messaggio che dipende dall'utente che fa la richiesta
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfoMsg'
+        "400":
+          description: Errore imprevisto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMsg'
+  /api/users/register:
+    post:
+      tags:
+      - paziente
+      summary: Registrazione di un nuovo Paziente
+      description: Registra un nuovo paziente, gestisce il caso in cui a fare la richiesta sia un utente già autenticato con un messaggio di info
+      operationId: registrazione
+      requestBody:
+        description: Dati del Paziente da registrare
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Paziente'
+      responses:
+        "200":
+          description: Utente già autenticato
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfoMsg'
+        "201":
+          description: Registrazione effettuata con successo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_201'
+        "400":
+          description: Errore relativo all'input oppure errore nell'applicazione
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMsg'
+  /api/users/login:
+    post:
+      tags:
+      - paziente
+      - operatore
+      summary: Autenticazione di un Paziente oppure di un Operatore
+      description: Permette ad un Utente del sistema di ottenere una sessione, ritorna un messaggio di errore se il login non ha successo e ritorna un messaggio di info se l'utente è già autenticato; il messaggio di richiesta deve contenere il campo "idAslOperatore" se il campo "is_operatore" è true, altrimenti deve contenere il campo "codiceFiscale"; il messaggio di risposta riportato in questa documentazione è relativo al login per il Paziente, ma ovviamente esso cambia se il login è effettuato da un Operatore
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginMsg'
+      responses:
+        "200":
+          description: Utente già autenticato
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfoMsg'
+        "201":
+          description: Login effettuato con successo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_201'
+        "400":
+          description: Errore relativo all'input oppure errore nell'applicazione
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMsg'
+  /api/users/logout:
+    get:
+      tags:
+      - operatore
+      - paziente
+      summary: Effettua il logout
+      description: Elimina il cookie di sessione, ritorna un messaggio di info se è stato effettuato il logout, oppure ritorna un messaggio di errore se l'utente che ha fatto la richiesta non era autenticato
+      operationId: logout
+      responses:
+        "200":
+          description: Messaggio di logout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfoMsg'
+        "400":
+          description: Utente non autenticato oppure errore nell'applicazione
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMsg'
+  /api/bookings:
+    get:
+      tags:
+      - operatore
+      - paziente
+      summary: Mostra lo stato del servizio
+      description: |
+        Se non sei autenticato, ti dice se il servizio è disponibile; altrimenti ti fornisce informazioni sull'utente con il quale sei autenticato
+      operationId: apiBookings
+      responses:
+        "200":
+          description: Messaggio che dipende dall'utente che fa la richiesta
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfoMsg'
+        "400":
+          description: Errore imprevisto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMsg'
+  /api/bookings/newBooking:
+    post:
+      tags:
+      - paziente
+      summary: Permette di creare una nuova Prenotazione
+      description: Utilizza i dati del cookie di sessione per creare una nuova Prenotazione; si effettuano vari controlli, ad esempio sulla finestra temporale, e se essi passano tutti allora viene ritornato l'oggetto Prenotazione creato, altrimenti viene ritornato un messaggio di errore
+      operationId: newBooking
+      responses:
+        "201":
+          description: Prenotazione creata con successo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_201_1'
+        "400":
+          description: Errore sull'input oppure utente non abilitato ad effettuare una Prenotazione, oppure errore nell'applicazione
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMsg'
+  /api/bookings/view:
+    get:
+      tags:
+      - paziente
+      - operatore
+      summary: Permette ad un Paziente di visualizzare la propria Prenotazione, oppure ad un Operatore di visualizzare la lista delle prenotazioni future
+      description: Gestisce il caso in cui la Prenotazione non sia ancora stata effettuata con un messaggio di info, i vari casi di errore ad esempio dell'utente non autenticato con un messaggio di errore, e con messaggi di successo ritorna o la Prenotazione del Paziente o la lista di prenotazioni future che l'Operatore deve visualizzare; nella documentazione riportiamo il caso in cui il Paziente ottiene una Prenotazione, mentre nel caso dell'Operatore si avrà nel campo 'data' una lista di oggetti di tipo Prenotazione
+      operationId: viewBookings
+      responses:
+        "200":
+          description: Prenotazione non ancora effettuata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfoMsg'
+        "201":
+          description: Prenotazione presente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_201_1'
+        "400":
+          description: Utente non autenticato oppure errori applicativi
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMsg'
+  /api/gateway/status:
+    get:
+      tags:
+      - operatore
+      - paziente
+      summary: Ritorna lo stato del gateway
+      description: Il gateway è il microservizio che funge da dispatcher per gli altri microservizi, ovvero è quello con cui il frontend interagisce direttamente; questo endpoint serve per sapere se il gateway è up
+      operationId: gatewayStatus
+      responses:
+        "200":
+          description: Il servizio è up
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfoMsg'
+        "400":
+          description: Errore imprevisto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMsg'
+components:
+  schemas:
+    InfoMsg:
+      type: object
+      properties:
+        info:
+          type: string
+    ErrorMsg:
+      type: object
+      properties:
+        error:
+          type: string
+    SuccessMsg:
+      type: object
+      properties:
+        success:
+          type: string
+        data:
+          type: object
+    Paziente:
+      required:
+      - codiceFiscale
+      - cognome
+      - dataNascita
+      - email
+      - luogoNascita
+      - luogoResidenza
+      - nome
+      - password
+      - telefono
+      - tesseraSanitaria
+      type: object
+      properties:
+        nome:
+          type: string
+        cognome:
+          type: string
+        dataNascita:
+          type: string
+          format: date
+        luogoNascita:
+          type: string
+        email:
+          type: string
+        telefono:
+          type: string
+        password:
+          type: string
+        codiceFiscale:
+          type: string
+        tesseraSanitaria:
+          type: string
+        luogoResidenza:
+          type: string
+    Operatore:
+      type: object
+      properties:
+        idOperatore:
+          type: integer
+        idUtente:
+          type: integer
+        idAslOperatore:
+          type: string
+        nome:
+          type: string
+        cognome:
+          type: string
+        dataNascita:
+          type: string
+          format: date
+        luogoNascita:
+          type: string
+        email:
+          type: string
+        telefono:
+          type: string
+        password:
+          type: string
+    LoginMsg:
+      type: object
+      properties:
+        codiceFiscale:
+          type: string
+        idAslOperatore:
+          type: string
+        password:
+          type: string
+        is_operatore:
+          type: boolean
+    Prenotazione:
+      type: object
+      properties:
+        id:
+          type: integer
+        idPaziente:
+          type: integer
+        luogoVaccino:
+          type: string
+        dataVaccino:
+          type: string
+        codiceFiscale:
+          type: string
+        tesseraSanitaria:
+          type: string
+        luogoResidenza:
+          type: string
+        nome:
+          type: string
+        cognome:
+          type: string
+        email:
+          type: string
+        telefono:
+          type: string
+    inline_response_201:
+      type: object
+      properties:
+        success:
+          type: string
+        data:
+          $ref: '#/components/schemas/Paziente'
+    inline_response_201_1:
+      type: object
+      properties:
+        success:
+          type: string
+        data:
+          $ref: '#/components/schemas/Prenotazione'
